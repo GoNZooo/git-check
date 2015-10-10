@@ -8,7 +8,7 @@ sub dirs-in-dir($path) {
 }
 
 sub has-git-dir($path) {
-    # Perl6 `in` operator, sort of.
+    # Perl6 `in` operator, sort of. Do any elements in array match the regex?
     any(dirs-in-dir($path)) ~~ /".git"/;
 }
 
@@ -20,19 +20,27 @@ sub get-git-status($path) {
     $git-output;
 }
 
-sub git-not-changed($git-output) {
-    so $git-output ~~ /"nothing to commit, working directory clean"/;
+sub git-changed($path) {
+    not get-git-status($path) ~~ /"nothing to commit, working directory clean"/;
 }
 
-sub check-dir($path) {
-    if has-git-dir($path) {
-        if !git-not-changed get-git-status($path) {
-            say $path.Str, " should be checked."; 
-        }
+sub announce($path) {
+    say($path.Str, " should be checked.");
+}
+
+sub git-dirs(@dirs) {
+    if not @dirs {
+        ();
     } else {
-        for dirs-in-dir($path) -> $d {
-            check-dir($d);
-        }
+        my ($head, *@tail) = @dirs;
+        has-git-dir($head)
+        ?? [$head, |git-dirs(@tail)]
+        !! [|git-dirs(dirs-in-dir($head)), |git-dirs(@tail)];
+    }
+}
+sub check-dir($path) {
+    for git-dirs(dirs-in-dir($path)).grep( { git-changed($_) } ) {
+        announce($_);
     }
 }
 
