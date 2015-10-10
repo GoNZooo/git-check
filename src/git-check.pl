@@ -2,6 +2,7 @@
 
 use v6;
 
+# TODO: Replace with filter function
 sub dirs-in-dir($path) {
     my @dirs;
     for dir($path) -> $d {
@@ -10,6 +11,7 @@ sub dirs-in-dir($path) {
     @dirs;
 }
 
+# TODO: Use dirs-in-dir() and something like a `in` operator
 sub has-git-dir($path) {
     for dir($path) -> $d {
         $d.d && $d.Str ~~ /".git"/ ?? return True !! next;
