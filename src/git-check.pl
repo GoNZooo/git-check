@@ -2,21 +2,14 @@
 
 use v6;
 
-# TODO: Replace with filter function
 sub dirs-in-dir($path) {
-    my @dirs;
-    for dir($path) -> $d {
-        $d.d ?? @dirs.push: $d !! next;
-    }
-    @dirs;
+    # Perl6 filter function
+    dir($path).grep( { $_.d } );
 }
 
-# TODO: Use dirs-in-dir() and something like a `in` operator
 sub has-git-dir($path) {
-    for dir($path) -> $d {
-        $d.d && $d.Str ~~ /".git"/ ?? return True !! next;
-    };
-    False;
+    # Perl6 `in` operator, sort of.
+    any(dirs-in-dir($path)) ~~ /".git"/;
 }
 
 sub get-git-status($path) {
