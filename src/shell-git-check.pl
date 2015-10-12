@@ -28,7 +28,7 @@ sub filter-same-root($path, @dirs) {
     @dirs.grep({ not (same-root($path, $_)) });
 }
 
-# Filters out top-directories, so submodules (with .git dirs are not included)
+# Filters out top-directories, so submodules (with .git dirs) are not included)
 sub top-dirs(@dirs) {
    if (not @dirs) {
        ();
