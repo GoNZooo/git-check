@@ -2,14 +2,14 @@
 
 use v6;
 
-sub dirs-in-dir($path) {
+sub dirs($path) {
     # Perl6 filter function
     dir($path).grep( { $_.d } );
 }
 
 sub has-git-dir($path) {
     # Perl6 `in` operator, sort of. Do any elements in array match the regex?
-    any(dirs-in-dir($path)) ~~ /".git"/;
+    any(dirs($path)) ~~ /".git"/;
 }
 
 sub get-git-status($path) {
@@ -35,11 +35,11 @@ sub git-dirs(@dirs) {
         my ($head, *@tail) = @dirs;
         has-git-dir($head)
         ?? [$head, |git-dirs(@tail)]
-        !! [|git-dirs(dirs-in-dir($head)), |git-dirs(@tail)];
+        !! [|git-dirs(dirs($head)), |git-dirs(@tail)];
     }
 }
 sub check-dir($path) {
-    for git-dirs(dirs-in-dir($path)).grep( { git-changed($_) } ) {
+    for git-dirs(dirs($path)).grep( { git-changed($_) } ) {
         announce($_);
     }
 }
