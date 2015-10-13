@@ -20,7 +20,7 @@ sub announce($path) {
 
 # Determines if two paths share the same root
 sub same-root($path1, $path2) {
-    $path1.starts-with($path2) || $path2.starts-with($path1);
+    $path2.starts-with($path1) || $path1.starts-with($path2);
 }
 
 # For a given path, filters out sub-paths from a sorted list of paths
