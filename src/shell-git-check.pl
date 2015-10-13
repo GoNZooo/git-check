@@ -5,13 +5,13 @@ use v6;
 sub get-git-status($path) {
     my $curdir = $*CWD;
     chdir($path);
-    my $git-output = run("git", "status", :out).out.slurp-rest;
+    my $git-output = run("git", "status", "-s", :out).out.slurp-rest;
     chdir($curdir);
     $git-output;
 }
 
 sub git-changed($path) {
-    not get-git-status($path) ~~ /"nothing to commit, working directory clean"/;
+    get-git-status($path);
 }
 
 sub announce($path) {
