@@ -23,7 +23,7 @@ sub same-root($path1, $path2) {
     $path1.starts-with($path2) || $path2.starts-with($path1);
 }
 
-# For a given path, filters out sub-paths from a list of paths
+# For a given path, filters out sub-paths from a sorted list of paths
 sub filter-same-root($path, @dirs) {
     @dirs.grep({ not (same-root($path, $_)) });
 }
