@@ -11,7 +11,7 @@ sub get-git-status($path) {
 }
 
 sub git-changed($path) {
-    get-git-status($path);
+    so get-git-status($path);
 }
 
 sub announce($path) {
