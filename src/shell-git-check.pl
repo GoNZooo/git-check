@@ -40,12 +40,15 @@ sub top-dirs(@dirs) {
 }
 
 sub find-git-dirs($path) {
-    my $find-output = run("find", "-wholename", "*/.git", :out).out.slurp-rest;
+    my $find-output = run("find", $path, "-wholename", "*/.git", :out).out.slurp-rest;
     my @git-dirs = $find-output.lines.map({ $_.substr(0, *-4) }).sort;
 
     top-dirs(@git-dirs);
 }
 
-for find-git-dirs(".").grep({ git-changed $_ }) {
-    announce($_);
+sub MAIN(Str $root-dir = ".") {
+    for find-git-dirs($root-dir).grep({ git-changed $_ }) {
+        announce($_);
+    }
 }
+
