@@ -34,8 +34,8 @@ sub git-dirs(@dirs) {
     } else {
         my ($head, *@tail) = @dirs;
         has-git-dir($head)
-        ?? [$head, |git-dirs(@tail)]
-        !! [|git-dirs(dirs($head)), |git-dirs(@tail)];
+            ?? [$head, |git-dirs(@tail)]
+            !! [|git-dirs(dirs($head)), |git-dirs(@tail)];
     }
 }
 sub check-dir($path) {

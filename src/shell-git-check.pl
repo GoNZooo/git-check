@@ -30,13 +30,13 @@ sub filter-same-root($path, @dirs) {
 
 # Filters out top-directories, so sub-directiores are not included
 sub top-dirs(@dirs) {
-   if (not @dirs) {
-       ();
-   } else {
-       my $first = @dirs[0];
-       my @unique-rest = filter-same-root($first, @dirs[1 .. @dirs.end]);
-       [$first, |top-dirs(@unique-rest)];
-   }
+    if (not @dirs) {
+        ();
+    } else {
+        my $first = @dirs[0];
+        my @unique-rest = filter-same-root($first, @dirs[1 .. @dirs.end]);
+        [$first, |top-dirs(@unique-rest)];
+    }
 }
 
 sub find-git-dirs($path) {
